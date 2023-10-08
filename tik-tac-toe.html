@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Tik Tac Toe</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <style>
+    .square {
+      width: 100px;
+      height: 200px;
+      font-size: 2em;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body class="text-center">
+  <h1 class="mt-5">Tic Tac Toe</h1>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col square border" id="0"></div>
+      <div class="col square border" id="1"></div>
+      <div class="col square border" id="2"></div>
+    </div>
+    <div class="row">
+      <div class="col square border" id="3"></div>
+      <div class="col square border" id="4"></div>
+      <div class="col square border" id="5"></div>
+    </div>
+    <div class="row">
+      <div class="col square border" id="6"></div>
+      <div class="col square border" id="7"></div>
+      <div class="col square border" id="8"></div>
+    </div>
+  </div>
+  <input type="reset" value="RESET" onclick="location.reload()" style="height: 75px; width: 300px; padding-top: 10px;">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script>
+    let rd = true;
+    let board = ['', '', '', '', '', '', '', '', ''];
+
+    function checkWinner() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]            
+      ];
+
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return board[a];
+        }
+      }
+
+      if (board.includes('')) {
+        return null;
+      } else {
+        return 'draw';
+      }
+    }
+
+    function handleClick(index) {
+      if (board[index] === '' && !checkWinner()) {
+        board[index] = rd ? 'X' : 'O';
+        let ele = document.getElementById(index);
+        ele.style.backgroundColor = board[index] === 'X' ? 'red' : 'black';
+        rd = !rd;
+
+        let winner = checkWinner();
+        if (winner) {
+          if (winner === 'draw') {
+            alert("It's a draw!");
+          } else {
+            let w = winner == 'X' ? 'Red' : 'Black';
+            alert(`${w}  is the winner!`);
+          }
+        }
+      }
+    }
+    for (let i = 0; i < 9; i++) {
+      let ele = document.getElementById(i);
+      ele.addEventListener('click', () => {
+        handleClick(i);
+      });
+    }
+  </script>
+</body>
+</html>
